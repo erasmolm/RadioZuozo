@@ -18,8 +18,13 @@
   	  socket.emit('adduser', username);
   	  });
 
-	  socket.on('updatechat', function(username, data){
-	  	$('#conversation').append('<b>' + username + ':</b>' + data + '<br>')
+	  socket.on('updatechat', function(username, data,value){
+      if(value === true){
+      $('#conversation').empty();
+	  	 $('#conversation').append('<b>' + username + ':</b>' + data + '<br>');
+      }else{
+        $('#conversation').append('<b>' + username + ':</b>' + data + '<br>');
+      }
 	  });
 	  socket.on('updateusers', function(data){
 	  	$('#users').empty();
@@ -27,6 +32,18 @@
 	  	  $('#users').append('<div>' + key + '</div>');
 	  	});
 	  });
+
+    socket.on('updaterooms', function(rooms, current_room) {
+    $('#rooms').empty();
+    $.each(rooms, function(key, value) {
+      if(value == current_room){
+        $('#rooms').append('<div>' + value + '</div>');
+      }
+      else {
+        $('#rooms').append('<div><a href="#" onclick="switchRoom(\''+value+'\')">' + value + '</a></div>');
+      }
+    });
+  });
 
     socket.on('typing', function(data){
         $('#typing_on').html(data);
@@ -40,7 +57,6 @@
 	  	});
       $('#data').keyup(function(){
         console.log("Qualcuno sta scrivendo");
-        //typing = true;
         socket.emit('isTyping', 'Qualcuno sta scrivendo');
         clearTimeout(timeout);
         timeout = setTimeout(timeoutFunction, 2000);
@@ -48,9 +64,12 @@
 	  });
 
     function timeoutFunction(){
-      //typing = false;
       socket.emit("isTyping", "Nessuno sta scrivendo");
     }
+
+    function switchRoom(room){
+    socket.emit('switchRoom', room);
+  }
 
     //////////////////////////////////////
     //funzioni di gestione della pagina //
@@ -150,6 +169,10 @@
 </div>
 
 <!-- SEZIONE CHAT -->
+<div style="float:left;width:100px;border-right:1px solid black;height:300px;padding:10px;overflow:scroll-y;">
+  <b>ROOMS</b>
+  <div id="rooms"></div>
+</div>
 <div style="float:left;width:100px;border-right:1px solid black;height:300px;padding:10px;overflow:scroll-y;">
     <b>Utenti in ascolto</b>
     <div id="users"></div>
