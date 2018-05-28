@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+
+<!-- richiamo le librerie socket.io e jQuery dalle CDN (Content Delivery Network) -->
+
+<script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>  
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+
+<script>
+  var timeout;
+  var socket = io.connect('http://localhost:4300');
+ 	  socket.on('connect', function(){
+ 	  	var username = prompt('Inserisci un username');
+ 	  	while(username === null){
+ 	  		var username = prompt('Inserisci un username');
+ 	  	}
+  	  socket.emit('adduser', username);
+  	  });
+
+	  socket.on('updatechat', function(username, data){
+	  	$('#conversation').append('<b>' + username + ':</b>' + data + '<br>')
+	  });
+	  socket.on('updateusers', function(data){
+	  	$('#users').empty();
+	  	$.each(data, function(key, value){
+	  	  $('#users').append('<div>' + key + '</div>'); 
+	  	});	
+	  });
+
+    socket.on('typing', function(data){
+        $('#typing_on').html(data);
+    });
+
+	  $(document).ready(function(){
+	  	$('#send').click(function(){
+	  	  var message = $('#data').val();
+	  	  $('#data').val('');
+	  	  socket.emit('send', message);
+	  	});
+      $('#data').keyup(function(){
+        console.log("Qualcuno sta scrivendo");
+        //typing = true;
+        socket.emit('isTyping', 'Qualcuno sta scrivendo');
+        clearTimeout(timeout);
+        timeout = setTimeout(timeoutFunction, 2000);
+      });
+	  });
+
+    function timeoutFunction(){
+      //typing = false;
+      socket.emit("isTyping", "Nessuno sta scrivendo");
+    }
+
+</script>
+
+
+<div> 
+	<h3> qui ci va la roba per la gestione della radio</h3>
+</div>
+
+
+<div style="float:left;width:100px;border-right:1px solid black;height:300px;padding:10px;overflow:scroll-y;">  
+    <b>UTENTI</b>  
+    <div id="users"></div>  
+</div>  
+<div style="float:left;width:300px;height:250px;overflow:scroll-y;padding:10px;">  
+    <div id="conversation"></div>  
+    <input id="data" style="width:200px;" />  
+    <div id="typing_on">Nessuno sta scrivendo</div> 
+    <input type="button" id="send" value="invia"/>  
+</div> 
+
+
+</html>
