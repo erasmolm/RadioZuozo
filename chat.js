@@ -17,7 +17,7 @@ http.listen(4300, function(){
 //definisco il routing che permette al server di restituire la pagina "index.html" quando lo si contatta
 app.get('/',function(req,res){
 	 //qui definisco il path del file index.html; in particolare __dirname fa riferimento alla cartella dove si trova il file chat.js
-    res.sendFile(__dirname + '/index.html'); 
+    res.sendFile(__dirname + '/index.html');
 
 });
 
@@ -32,7 +32,7 @@ app.get('/', function(req, res){
 */
 
 io.on('connection', function(socket){
-	
+
 	//quando il client invia un evento di send, si invia a tutti i client in ascolto su quella socket un evento di updatechat, l'username di chi ha inviato il messaggio e il messaggio
 	socket.on('send', function(data){
 		io.sockets.emit('updatechat', socket.username, data);
@@ -68,4 +68,3 @@ io.on('connection', function(socket){
 		socket.broadcast.emit('typing', data);
 	});
 });
-

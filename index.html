@@ -3,7 +3,7 @@
 
 <!-- richiamo le librerie socket.io e jQuery dalle CDN (Content Delivery Network) -->
 
-<script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>  
+<script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
 
 <script>
@@ -23,8 +23,8 @@
 	  socket.on('updateusers', function(data){
 	  	$('#users').empty();
 	  	$.each(data, function(key, value){
-	  	  $('#users').append('<div>' + key + '</div>'); 
-	  	});	
+	  	  $('#users').append('<div>' + key + '</div>');
+	  	});
 	  });
 
     socket.on('typing', function(data){
@@ -53,22 +53,98 @@
 
 </script>
 
+<!-- CSS DROPDOWN -->
+<style>
+.dropbtn {
+    background-color: #339966;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+}
 
-<div> 
-	<h3> qui ci va la roba per la gestione della radio</h3>
+.dropbtn:hover, .dropbtn:focus {
+    background-color: #194d33;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    overflow: auto;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown a:hover {background-color: #ddd}
+
+.show {display:block;}
+</style>
+
+<script>
+/* When the user clicks on the button,
+toggle between hiding and showing the dropdown content */
+function myFunction() {
+    document.getElementById("myDropdown").classList.toggle("show");
+}
+
+// Close the dropdown if the user clicks outside of it
+window.onclick = function(event) {
+  if (!event.target.matches('.dropbtn')) {
+
+    var dropdowns = document.getElementsByClassName("dropdown-content");
+    var i;
+    for (i = 0; i < dropdowns.length; i++) {
+      var openDropdown = dropdowns[i];
+      if (openDropdown.classList.contains('show')) {
+        openDropdown.classList.remove('show');
+      }
+    }
+  }
+}
+</script>
+
+<!-- BOTTONI DROPDOWN -->
+<div class="dropdowns">
+<button onclick="myFunction()" class="dropbtn">Stazioni Radio</button>
+  <div id="myDropdown" class="dropdown-content">
+    <a href="#home">Home</a>
+    <a href="#about">About</a>
+    <a href="#contact">Contact</a>
+  </div>
 </div>
 
+<!-- SEZIONE RADIO -->
+<div>
+	<h3> qui ci va la roba per la gestione della radio</h3>
+    <audio src="http://localhost:8000/ices" autoplay="" controls="" style="height: 40px; width: 30%;"></audio>
+</div>
 
-<div style="float:left;width:100px;border-right:1px solid black;height:300px;padding:10px;overflow:scroll-y;">  
-    <b>UTENTI</b>  
-    <div id="users"></div>  
-</div>  
-<div style="float:left;width:300px;height:250px;overflow:scroll-y;padding:10px;">  
-    <div id="conversation"></div>  
-    <input id="data" style="width:200px;" />  
-    <div id="typing_on">Nessuno sta scrivendo</div> 
-    <input type="button" id="send" value="invia"/>  
-</div> 
+<!-- SEZIONE CHAT -->
+<div style="float:left;width:100px;border-right:1px solid black;height:300px;padding:10px;overflow:scroll-y;">
+    <b>Utenti in ascolto</b>
+    <div id="users"></div>
+</div>
+<div style="float:left;width:300px;height:250px;overflow:scroll-y;padding:10px;">
+    <div id="conversation"></div>
+    <input id="data" style="width:200px;" />
+    <div id="typing_on">Nessuno sta scrivendo</div>
+    <input type="button" id="send" value="invia"/>
+</div>
 
 
 </html>
