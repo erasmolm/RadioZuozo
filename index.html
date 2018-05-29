@@ -8,68 +8,69 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
 
 <script>
-  var timeout;
-  var socket = io.connect('http://localhost:4300');
- 	  socket.on('connect', function(){
- 	  	var username = prompt('Inserisci un username');
- 	  	while(username === null || username === ''){
- 	  		var username = prompt('Inserisci un username');
- 	  	}
-  	  socket.emit('adduser', username);
-  	  });
+    var timeout;
+    var socket = io.connect('http://localhost:4300');
+    socket.on('connect', function(){
+	  	var username = prompt('Inserisci un username');
+	  	while(username === null || username === ''){
+	  		var username = prompt('Inserisci un username');
+        }
+        socket.emit('adduser', username);
+    });
 
-	  socket.on('updatechat', function(username, data,value){
-      if(value === true){
-      $('#conversation').empty();
-	  	 $('#conversation').append('<b>' + username + ': </b>' + data + '<br>');
-      }else{
-        $('#conversation').append('<b>' + username + ': </b>' + data + '<br>');
-      }
-	  });
-	  socket.on('updateusers', function(data){
-      $('#users').empty();
-	  	$.each(data, function(key, value){
-	  	  $('#users').append('<div>' + key + '</div>');
-	  	});
-	  });
+    socket.on('updatechat', function(username, data,value){
+        if(value === true){
+            $('#conversation').empty();
+            $('#conversation').append('<b>' + username + ': </b>' + data + '<br>');
+        }else{
+            $('#conversation').append('<b>' + username + ': </b>' + data + '<br>');
+        }
+    });
+
+    socket.on('updateusers', function(data){
+        $('#users').empty();
+        $.each(data, function(key, value){
+            $('#users').append('<div>' + key + '</div>');
+        });
+    });
 
     socket.on('updaterooms', function(rooms, current_room) {
-    $('#rooms').empty();
-    $.each(rooms, function(key, value) {
-      if(value == current_room){
-        $('#rooms').append('<div>' + value + '</div>');
-      }
-      else {
-        $('#rooms').append('<div><a href="#" onclick="switchRoom(\''+value+'\')">' + value + '</a></div>');
-      }
+        $('#rooms').empty();
+        $.each(rooms, function(key, value) {
+            if(value == current_room){
+                $('#rooms').append('<div>' + value + '</div>');
+            }
+            else {
+                $('#rooms').append('<div><a href="#" onclick="switchRoom(\''+value+'\')">' + value + '</a></div>');
+            }
+        });
     });
-  });
 
     socket.on('typing', function(data){
         $('#typing_on').html(data);
     });
 
-	  $(document).ready(function(){
-	  	$('#send').click(function(){
-	  	  var message = $('#data').val();
-	  	  $('#data').val('');
-	  	  socket.emit('send', message);
-	  	});
-      $('#data').keyup(function(){
-        console.log("Qualcuno sta scrivendo");
-        socket.emit('isTyping', 'Qualcuno sta scrivendo');
-        clearTimeout(timeout);
-        timeout = setTimeout(timeoutFunction, 2000);
-      });
-	  });
+    $(document).ready(function(){
+        $('#send').click(function(){
+            var message = $('#data').val();
+            $('#data').val('');
+            socket.emit('send', message);
+        });
+        $('#data').keyup(function(){
+            console.log("Qualcuno sta scrivendo");
+            socket.emit('isTyping', 'Qualcuno sta scrivendo');
+            clearTimeout(timeout);
+            timeout = setTimeout(timeoutFunction, 2000);
+        });
+    });
 
     function timeoutFunction(){
-      socket.emit("isTyping", "Nessuno sta scrivendo");
+        socket.emit("isTyping", "Nessuno sta scrivendo");
     }
 
     function switchRoom(room){
-    socket.emit('switchRoom', room);
-  }
+        socket.emit('switchRoom', room);
+    }
 
     //////////////////////////////////////
     //funzioni di gestione della pagina //
