@@ -4,6 +4,7 @@
     "description": "chat realizzata in Node.js",
     "dependencies": {
         "express": "4.10.2",
+        "musicmatch": "^0.3.2",
         "socket.io": "^1.2.0"
     }
 }
