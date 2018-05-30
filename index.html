@@ -2,6 +2,9 @@
 <html>
 
 <head>
+<!-- CSS della pagina-->
+<link rel="stylesheet" type="text/css" href="topnav.css">
+
 <!-- richiamo le librerie socket.io e jQuery dalle CDN (Content Delivery Network) -->
 
 <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
@@ -114,34 +117,40 @@
 </head>
 
 <body>
-<!-- BOTTONI DROPDOWN -->
-<div class="dropdowns">
-<button onclick="showDropdown()" class="dropbtn">Stazioni Radio</button>
-  <div id="dropdownStazioni" class="dropdown-content">
-    <button onclick="changeStation('stazione1')">Stazione1</button>
-  </div>
+<!-- TOPNAV -->
+<div class="topnav">
+        <a class="active" href="#Radio">Radio</a>
+        <a href="#Bacheca">Bacheca</a>
 </div>
 
 <!-- SEZIONE RADIO -->
-<div>
-	<h3> qui ci va la roba per la gestione della radio</h3>
+<div class="divRadio">
+	<h3>Seleziona la stazione che preferisci ascoltare</h3>
+    <button onclick="changeStation('stazione1')">Stazione1</button>
+    <button onclick="changeStation('stazione2')">Stazione2</button>
+    <button onclick="changeStation('stazione3')">Stazione3</button>
+    <br><br>
     <audio id="myPlayer" src="#" type="audio/mpeg" autoplay="" controls="" style="height: 40px; width: 30%;" />
+    <br><br>
 </div>
 
 <!-- SEZIONE CHAT -->
-<div style="float:left;width:100px;border-right:1px solid black;height:300px;padding:10px;overflow:scroll-y;">
-  <b>ROOMS</b>
-  <div id="rooms"></div>
-</div>
-<div style="float:left;width:100px;border-right:1px solid black;height:300px;padding:10px;overflow:scroll-y;">
-    <b>Utenti in ascolto</b>
-    <div id="users"></div>
-</div>
-<div style="float:left;width:300px;height:250px;overflow:scroll-y;padding:10px;">
-    <div id="conversation"></div>
-    <input id="data" style="width:200px;" />
-    <div id="typing_on">Nessuno sta scrivendo</div>
-    <input type="button" id="send" value="invia"/>
+<div class="divChat">
+    <h3>Chatroom della stazione radio</h3>
+    <div style="float:left;width:100px;border-right:1px solid black;height:300px;padding:10px;overflow:scroll-y;">
+        <b>ROOMS</b>
+        <div id="rooms"></div>
+    </div>
+    <div style="float:left;width:100px;border-right:1px solid black;height:300px;padding:10px;overflow:scroll-y;">
+        <b>Utenti in ascolto</b>
+        <div id="users"></div>
+    </div>
+    <div style="float:left;width:300px;height:250px;overflow:scroll-y;padding:10px;">
+        <div id="conversation"></div>
+        <input id="data" style="width:200px;" />
+        <div id="typing_on">Nessuno sta scrivendo</div>
+        <input type="button" id="send" value="invia"/>
+    </div>
 </div>
 
 </body>
