@@ -79,14 +79,14 @@
     //funzioni di gestione della pagina //
     //////////////////////////////////////
 
-    /**
+    /**TODO inutile per ora
      * Mostra elenco delle stazioni radio
      */
     function showDropdown() {
         document.getElementById("dropdownStazioni").classList.toggle("show");
     }
 
-    /**
+    /**TODO inutile per ora
      * Chiudi elenco delle stazioni radio al click fuori dall'area
      */
     window.onclick = function(event) {
@@ -112,6 +112,28 @@
         pl.src = "http://localhost:8000/" + stazione;
     }
 
+    /**
+     * TODO bozza di funzione
+     */
+    function changePage() {
+        var radio = document.getElementById("radio");
+        var bacheca = document.getElementById("bacheca");
+
+        document.body.replaceChild(bacheca,radio);
+    }
+
+    /**
+     * GET per ottenere la lista degli elementi condivisi
+     */
+    function getBacheca(){
+        $.get("http://localhost:3005/tracks/", function(data, status){
+            alert(data);
+            document.write(data);
+        },"text");
+    }
+
+
+
 </script>
 
 </head>
@@ -119,12 +141,14 @@
 <body>
 <!-- TOPNAV -->
 <div class="topnav">
-        <a class="active" href="#Radio">Radio</a>
-        <a href="#Bacheca">Bacheca</a>
+        <button class="active" onclick="changePage()">Radio</button>
+        <button onclick="getBacheca()">Bacheca</button>
 </div>
 
 <!-- SEZIONE RADIO -->
-<div class="divRadio">
+<div id="radio" class="divRadio">
+
+    <!-- SOTTOSEZIONE PLAYER -->
 	<h3>Seleziona la stazione che preferisci ascoltare</h3>
     <button onclick="changeStation('stazione1')">Stazione1</button>
     <button onclick="changeStation('stazione2')">Stazione2</button>
@@ -132,10 +156,8 @@
     <br><br>
     <audio id="myPlayer" src="#" type="audio/mpeg" autoplay="" controls="" style="height: 40px; width: 30%;" />
     <br><br>
-</div>
 
-<!-- SEZIONE CHAT -->
-<div class="divChat">
+    <!-- SOTTOSEZIONE CHAT -->
     <h3>Chatroom della stazione radio</h3>
     <div style="float:left;width:100px;border-right:1px solid black;height:300px;padding:10px;overflow:scroll-y;">
         <b>ROOMS</b>
@@ -151,6 +173,12 @@
         <div id="typing_on">Nessuno sta scrivendo</div>
         <input type="button" id="send" value="invia"/>
     </div>
+</div>
+
+<!-- SEZIONE BACHECA -->
+<div id="bacheca" class="divBacheca">
+    <h3>Ultime tracce pubblicate</h3>
+    <br><br>
 </div>
 
 </body>

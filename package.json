@@ -3,7 +3,10 @@
     "version": "0.0.1",
     "description": "chat realizzata in Node.js",
     "dependencies": {
+        "dev-null": "^0.1.1",
         "express": "4.10.2",
+        "icy": "^2.1.0",
+        "lame": "^1.2.4",
         "musicmatch": "^0.3.2",
         "socket.io": "^1.2.0"
     }
